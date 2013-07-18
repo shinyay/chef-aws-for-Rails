@@ -1,6 +1,16 @@
 {
   "run_list":[
     "recipe[yum::epel]",
-    "recipe[base-packages]"
-  ]
+    "recipe[base-packages]",
+    "recipe[ruby_build]",
+    "recipe[rbenv::system]"
+  ],
+  "rbenv": {
+    "rubies": [ "2.0.0-p247", "1.9.3-p448" ],
+    "gems": {
+      "2.0.0-p247": [
+        { "name": "bundler" }
+      ]
+    }
+  }
 }

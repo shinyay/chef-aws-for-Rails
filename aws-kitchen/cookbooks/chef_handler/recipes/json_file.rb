@@ -1,6 +1,7 @@
 #
-# Cookbook Name:: yum
-# Attributes:: remi
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: chef_handlers
+# Recipe:: json_file
 #
 # Copyright 2011, Opscode, Inc.
 #
@@ -17,14 +18,11 @@
 # limitations under the License.
 #
 
-case node['platform']
-when "fedora"
-  default['yum']['remi']['url'] = "http://rpms.famillecollet.com/fedora/#{node['platform_version'].to_i}/remi/mirror"
-else
-  default['yum']['remi']['url'] = "http://rpms.famillecollet.com/enterprise/#{node['platform_version'].to_i}/remi/mirror"
-end
+# force resource actions in compile phase so exception handler 
+# fires for compile phase exceptions
 
-default['yum']['remi']['key'] = "RPM-GPG-KEY-remi"
-default['yum']['remi']['key_url'] = "http://rpms.famillecollet.com/#{node['yum']['remi']['key']}"
-default['yum']['remi']['includepkgs'] = nil
-default['yum']['remi']['exclude'] = nil
+chef_handler "Chef::Handler::JsonFile" do
+  source "chef/handler/json_file"
+  arguments :path => '/var/chef/reports'
+  action :nothing
+end.run_action(:enable)

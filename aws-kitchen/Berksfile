@@ -1,2 +1,5 @@
 site :opscode
 cookbook 'yum'
+#cookbook 'chef-rvm', git: 'https://github.com/fnichol/chef-rvm.git'
+cookbook 'rbenv', :git => 'https://github.com/fnichol/chef-rbenv.git', :ref => 'v0.7.2'
+cookbook 'ruby_build'

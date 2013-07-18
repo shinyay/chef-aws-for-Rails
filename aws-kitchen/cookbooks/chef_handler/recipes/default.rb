@@ -1,6 +1,7 @@
 #
-# Cookbook Name:: yum
-# Attributes:: remi
+# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: chef_handlers
+# Recipe:: default
 #
 # Copyright 2011, Opscode, Inc.
 #
@@ -17,14 +18,16 @@
 # limitations under the License.
 #
 
-case node['platform']
-when "fedora"
-  default['yum']['remi']['url'] = "http://rpms.famillecollet.com/fedora/#{node['platform_version'].to_i}/remi/mirror"
-else
-  default['yum']['remi']['url'] = "http://rpms.famillecollet.com/enterprise/#{node['platform_version'].to_i}/remi/mirror"
-end
+Chef::Log.info("Chef Handlers will be at: #{node['chef_handler']['handler_path']}")
 
-default['yum']['remi']['key'] = "RPM-GPG-KEY-remi"
-default['yum']['remi']['key_url'] = "http://rpms.famillecollet.com/#{node['yum']['remi']['key']}"
-default['yum']['remi']['includepkgs'] = nil
-default['yum']['remi']['exclude'] = nil
+remote_directory node['chef_handler']['handler_path'] do
+  source 'handlers'
+  # Just inherit permissions on Windows, don't try to set POSIX perms
+  if node["platform"] != "windows"
+    owner node['chef_handler']['root_user']
+    group node['chef_handler']['root_group']
+    mode "0755"
+    recursive true
+  end
+  action :nothing
+end.run_action(:create)
