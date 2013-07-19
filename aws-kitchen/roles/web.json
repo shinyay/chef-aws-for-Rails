@@ -1,0 +1,16 @@
+{
+  "name": "web",
+  "chef_type": "role",
+  "json_class": "Chef::Role",
+  "description": "HTTP Server",
+  "default_attributes": {
+    "nginx": {
+      "install_method": "package",
+      "repo_source": "epel"
+    }
+  },
+  "run_list": [
+    "recipe[runit]",
+    "recipe[nginx]"
+  ]
+}
