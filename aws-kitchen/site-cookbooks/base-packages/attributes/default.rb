@@ -12,6 +12,8 @@ node.default[:package] = %w{
   libyaml-devel
   ncurses-devel
   tree
+  sqlite
+  sqlite-devel
 }
 
 # tk-devel
