@@ -6,11 +6,14 @@
   "default_attributes": {
     "nginx": {
       "install_method": "package",
-      "repo_source": "epel"
+      "repo_source": "epel",
+      "port": "80",
+      "application": "chef_rails_template"
     }
   },
   "run_list": [
     "recipe[runit]",
-    "recipe[nginx]"
+    "recipe[nginx]",
+    "recipe[unicorn-nginx]"
   ]
 }
